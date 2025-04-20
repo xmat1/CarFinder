@@ -1,14 +1,6 @@
 # CarFinder Program - AutoCountry
 
-AllowedVehiclesList = [
-    'Ford F-150',
-    'Chevrolet Silverado',
-    'Tesla CyberTruck',
-    'Toyota Tundra',
-    'Nissan Titan',
-    'Rivian R1T',
-    'Ram 1500'
-]
+FILENAME = "authorized_vehicles.txt"
 
 def show_banner():
     print("********************************")
@@ -23,15 +15,30 @@ def show_menu():
     print("4. DELETE Authorized Vehicle")
     print("5. Exit")
 
+def read_vehicles_from_file():
+    try:
+        with open(FILENAME, 'r') as file:
+            return [line.strip() for line in file.readlines()]
+    except FileNotFoundError:
+        return []
+
+def write_vehicles_to_file(vehicle_list):
+    with open(FILENAME, 'w') as file:
+        for vehicle in vehicle_list:
+            file.write(vehicle + "\n")
+
 def print_allowed_vehicles():
+    vehicles = read_vehicles_from_file()
     print("\nThe AutoCountry sales manager has authorized the purchase and selling of the following vehicles:")
-    for vehicle in AllowedVehiclesList:
+    for vehicle in vehicles:
         print(vehicle)
 
 def search_vehicle():
     print("********************************")
     vehicle = input("Please Enter the full Vehicle name:\n").strip()
-    if vehicle in AllowedVehiclesList:
+    vehicles = read_vehicles_from_file()
+
+    if vehicle in vehicles:
         print(f"\n{vehicle} is an authorized vehicle")
     else:
         print(f"\n{vehicle} is not an authorized vehicle, if you received this in error please check the spelling and try again")
@@ -39,17 +46,23 @@ def search_vehicle():
 def add_vehicle():
     print("********************************")
     new_vehicle = input("Please Enter the full Vehicle name you would like to add:\n").strip()
-    AllowedVehiclesList.append(new_vehicle)
+    vehicles = read_vehicles_from_file()
+
+    vehicles.append(new_vehicle)
+    write_vehicles_to_file(vehicles)
+
     print(f'\nYou have added "{new_vehicle}" as an authorized vehicle')
 
 def delete_vehicle():
     print("********************************")
     vehicle_to_remove = input("Please Enter the full Vehicle name you would like to REMOVE:\n").strip()
-    
-    if vehicle_to_remove in AllowedVehiclesList:
+    vehicles = read_vehicles_from_file()
+
+    if vehicle_to_remove in vehicles:
         confirmation = input(f'Are you sure you want to remove "{vehicle_to_remove}" from the Authorized Vehicles List?\n').strip().lower()
         if confirmation == 'yes':
-            AllowedVehiclesList.remove(vehicle_to_remove)
+            vehicles.remove(vehicle_to_remove)
+            write_vehicles_to_file(vehicles)
             print(f'\nYou have REMOVED "{vehicle_to_remove}" as an authorized vehicle')
         else:
             print("")
