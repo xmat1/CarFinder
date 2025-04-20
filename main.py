@@ -10,14 +10,15 @@ AllowedVehiclesList = [
 
 def show_banner():
     print("********************************")
-    print("AutoCountry Vehicle Finder v0.2")
+    print("AutoCountry Vehicle Finder v0.3")
     print("********************************")
 
 def show_menu():
     print("Please Enter the following number below from the following menu:\n")
     print("1. PRINT all Authorized Vehicles")
     print("2. SEARCH for Authorized Vehicle")
-    print("3. Exit")
+    print("3. ADD Authorized Vehicle")
+    print("4. Exit")
 
 def print_allowed_vehicles():
     print("\nThe AutoCountry sales manager has authorized the purchase and selling of the following vehicles:")
@@ -32,6 +33,12 @@ def search_vehicle():
     else:
         print(f"\n{vehicle} is not an authorized vehicle, if you received this in error please check the spelling and try again")
 
+def add_vehicle():
+    print("********************************")
+    new_vehicle = input("Please Enter the full Vehicle name you would like to add:\n").strip()
+    AllowedVehiclesList.append(new_vehicle)
+    print(f'\nYou have added "{new_vehicle}" as an authorized vehicle')
+
 def main():
     while True:
         show_banner()
@@ -43,11 +50,13 @@ def main():
         elif choice == '2':
             search_vehicle()
         elif choice == '3':
+            add_vehicle()
+        elif choice == '4':
             print("\nThank you for using the AutoCountry Vehicle Finder, good-bye!")
             input("\nPress Enter to close the program...")
             break
         else:
-            print("\nInvalid option. Please enter 1, 2, or 3.\n")
+            print("\nInvalid option. Please enter 1, 2, 3, or 4.\n")
 
 if __name__ == "__main__":
     main()
